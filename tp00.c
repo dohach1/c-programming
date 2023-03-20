@@ -1,3 +1,5 @@
+
+                                                          //dynamic_array//
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -43,114 +45,248 @@ int main() {
 }
 
 
-
-
+                                                            //queue//
+//with int//
 
 #include <stdio.h>
 #include <stdlib.h>
-struct queue{
-    int n;
-    int front;
-    int rear;
-    int *arr;
-};
-void enqueue(struct queue *B,int s){
-    if(B->arr==NULL){
-        B->front=-1;
-        B->rear=-1;
-    }
-    B->n++;
-    B->arr=realloc(B->arr,B->n*sizeof(int));
-    if (B->arr == NULL) {
-        printf("Error: out of memory\n");
-        exit(1);
-    };
-    B->arr[B->n-1]=s;
-    B->rear++;
-    if (B->front == -1) {
-        B->front = 0;
-    };
 
-}
-void dequeue(struct queue *B){
-    if(B->arr!=NULL){
-        for(int i=0;i<B->n-1;i++){
-            B->arr[i]=B->arr[i+1];
-        }
-        B->front++;
-        B->n--;
-        B->arr=realloc(B->arr,B->n*sizeof(int));
-        if(B->front==B->rear){
-            B->front=-1;
-            B->rear=-1;
-        }
+#define MAX_QUEUE_SIZE 100
+
+int queue[MAX_QUEUE_SIZE]; 
+int front = 0, rear = -1; // empty queue
+
+void push(int value) { 
+    if (rear >= MAX_QUEUE_SIZE - 1) { // Check if the queue is already full
+        printf("Error: queue overflow\n"); 
+        return; 
     }
+    rear++; // Increment the rear index
+    queue[rear] = value; // Add the value to the rear of the queue
 }
-int main() {
-    struct queue B;
-    int n;
-    B.arr=NULL;
-    B.n=0;
-    dequeue(&B);
-    for(int i=0;i<B.n;i++){
-        printf("%d\n",B.arr[i]);
+
+int pop() { // Function for removing and returning the value at the front of the queue
+    if (front > rear) { //empty
+        printf("Error: queue underflow\n"); 
+        return -1; //error code
     }
-    free(B.arr);
+    int value = queue[front]; 
+    front++; 
+    return value; 
+}
+
+int peek() { // Function for getting the value at the front of the queue without removing it
+    if (front > rear) { 
+        printf("Error: queue empty\n"); 
+        return -1; 
+    }
+    return queue[front]; // Return the value at the front of the queue
+}
+
+int main() { // Main function for testing the queue implementation
+    push(10); // Push the value 10 onto the queue
+    printf("Front element: %d\n", peek());       // Print the value at the front of the queue without removing it
+    printf("Pop: %d\n", pop());      // Pop the value at the front of the queue and print it
+    printf("Pop: %d\n", pop());      // Attempt to pop a value from an empty queue, resulting in an error message
+    return 0;
+}
+
+
+//with char//
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_QUEUE_SIZE 100
+
+char queue[MAX_QUEUE_SIZE];
+int front = 0, rear = -1; // empty queue
+
+void push(char value) {
+    if (rear >= MAX_QUEUE_SIZE - 1) { // Check if the queue is already full
+        printf("Error: queue overflow\n"); 
+        return; 
+    }
+    rear++; // Increment the rear index
+    queue[rear] = value; // Add the value to the rear of the queue
+}
+
+char pop() { // Function for removing and returning the value at the front of the queue
+    if (front > rear) { //empty
+        printf("Error: queue underflow\n"); 
+        return '\0'; //error code
+    }
+    char value = queue[front]; 
+    front++; 
+    return value; 
+}
+
+char peek() { // Function for getting the value at the front of the queue without removing it
+    if (front > rear) { 
+        printf("Error: queue empty\n"); 
+        return '\0'; 
+    }
+    return queue[front]; // Return the value at the front of the queue
+}
+int main() { // Main function for testing the queue implementation
+    push('a'); // Push the value 'a' onto the queue
+    printf("Front element: %c\n", peek());       // Print the value at the front of the queue without removing it
+    printf("Pop: %c\n", pop());      // Pop the value at the front of the queue and print it
+    printf("Pop: %c\n", pop());      // Attempt to pop a value from an empty queue, resulting in an error message
     return 0;
 }
 
 
 
+
+
+                                              //stack//
+//with int //
+
 #include <stdio.h>
 #include <stdlib.h>
-struct stack{
-    int *arr;
-    int n;
-};
-void push(struct stack *A,int data){
-    A->n++;
-    A->arr=realloc(A->arr,A->n*sizeof(int));
-    A->arr[A->n-1]=data;
-    count++;
-    if(data > A->n){
-        A->arr=realloc(A->arr, 2*A->n*sizeof(int));
-        A->arr[A->n]=data;
-    int i, j;
-    for (i = 0, j = 0; j < A->n; j++) {
-        if (A->arr[j] != 0) {
-            A->arr[i++] = A->arr[j];
-        };
-    };
-    A->n = i;
-    A->arr = realloc(A->arr, A->n * sizeof(int));
-};
 
-    }
-void pop(struct stack *A){
-    if(A->arr==NULL){
+#define MAX_STACK_SIZE 100
+
+int stack[MAX_STACK_SIZE];
+int top = -1; // initialize stack as empty (-1)
+
+void push(int value) {
+    if (top >= MAX_STACK_SIZE - 1) {    // Check if the stack is already full
+        printf("Error: stack overflow\n");
         return;
-    }else{
-        if (A->n <= 0) {
-            A->n = 0;
-            A->arr = NULL;
-        }else{
-            A->n--;
-            A->arr=(int*)realloc(A->arr,A->n * sizeof(int));
-        }
     }
+    top++;
+    stack[top] = value;
+}
+
+int pop() {
+    if (top < 0) {  // Check if the stack is already empty
+        printf("Error: stack underflow\n"); 
+        return -1;
+    }
+    int value = stack[top];
+    top--;
+    return value;
+}
+
+int peek() {
+    if (top < 0) {
+        printf("Error: stack empty\n");
+        return -1;
+    }
+    return stack[top];  // Return the value at the top of the stack
 }
 
 int main() {
-    struct stack A;
-    int n;
-    A.arr=NULL;
-    A.n=0;
-    pop(&A);
-    for(int i=0;i<A.n;i++){
-        printf("%d",A.arr[i]);
-    }
-    free(A.arr);
- 
+    push(100);
+    printf("Top element: %d\n", peek());  // Print the value at the top of the stack without removing it
+    printf("Pop: %d\n", pop());  // Pop the value at the top of the stack and print it
+    
+    printf("Pop: %d\n", pop()); // should result in underflow error
     return 0;
+}
+
+//with char//
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_STACK_SIZE 100
+
+char stack[MAX_STACK_SIZE];
+int top = -1; // initialize stack as empty (-1)
+
+void push(char value) {
+    if (top >= MAX_STACK_SIZE - 1) {    // Check if the stack is already full
+        printf("Error: stack overflow\n");
+        return;
+    }
+    top++;
+    stack[top] = value;
+}
+
+char pop() {
+    if (top < 0) {  // Check if the stack is already empty
+        printf("Error: stack underflow\n"); 
+        return '\0';
+    }
+    char value = stack[top];
+    top--;
+    return value;
+}
+
+char peek() {
+    if (top < 0) {  
+        printf("Error: stack empty\n");
+        return '\0';
+    }
+    return stack[top];  // Return the value at the top of the stack
+}
+
+int main() {
+    push('a');
+    printf("Top element: %c\n", peek());  // Print the value at the top of the stack without removing it
+    printf("Pop: %c\n", pop());  // Pop the value at the top of the stack and print it
+    
+    printf("Pop: %c\n", pop()); // should result in underflow error
+    return 0;
+}
+
+
+                                                           //list//
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_LIST_SIZE 100 
+
+int list[MAX_LIST_SIZE]; 
+int length = 0;
+void append(int value) { // appending a value to the end of the liste
+    if (length >= MAX_LIST_SIZE) {  // Check full
+        printf("Error: list overflow\n"); 
+        return;
+    }
+    list[length] = value; // Add the value to the end of the list
+    length++;
+}
+
+int main() { 
+    append(100); // Append the value 10 to the list
+    for (int i = 0; i < length; i++) {     //print each value
+        printf("%d ", list[i]);
+    }
+    return 0; 
+}
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_LIST_SIZE 100 
+
+char list[MAX_LIST_SIZE]; 
+int length = 0;
+
+void append(char value) { // appending a value to the end of the list
+    if (length >= MAX_LIST_SIZE) {  // Check full
+        printf("Error: list overflow\n"); 
+        return;
+    }
+    list[length] = value; // Add the value to the end of the list
+    length++;
+}
+
+int main() { 
+    append('d'); // Append the character 'H' to the list
+    append('r'); // Append the character 'o' to the list
+    
+    for (int i = 0; i < length; i++) {     //print each character(value)
+        printf("%c", list[i]);
+    }
+    return 0; 
 }
 
