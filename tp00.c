@@ -91,11 +91,6 @@ int main() {
     int n;
     B.arr=NULL;
     B.n=0;
-    enqueue(&B,1);
-    enqueue(&B,6);
-    enqueue(&B,3);
-    enqueue(&B,9);
-    enqueue(&B,5);
     dequeue(&B);
     for(int i=0;i<B.n;i++){
         printf("%d\n",B.arr[i]);
@@ -152,14 +147,6 @@ int main() {
     int n;
     A.arr=NULL;
     A.n=0;
-    push(&A,1);
-    push(&A,2);
-    push(&A,3);
-    push(&A,4);
-    push(&A,5);
-    push(&A,6);
-    push(&A,7);
-    push(&A,8);
     pop(&A);
     for(int i=0;i<A.n;i++){
         printf("%d",A.arr[i]);
