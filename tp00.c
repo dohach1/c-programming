@@ -44,7 +44,7 @@ int main() {
 
 
 
-//the queue//
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,8 +100,6 @@ int main() {
 }
 
 
-
-// the stack //
 
 #include <stdio.h>
 #include <stdlib.h>
