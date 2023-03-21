@@ -281,8 +281,8 @@ void append(char value) { // appending a value to the end of the list
 }
 
 int main() { 
-    append('d'); // Append the character 'H' to the list
-    append('r'); // Append the character 'o' to the list
+    append('d'); // Append the character 'd' to the list
+    append('r'); // Append the character 'r' to the list
     
     for (int i = 0; i < length; i++) {     //print each character(value)
         printf("%c", list[i]);
