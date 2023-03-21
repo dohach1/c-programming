@@ -256,7 +256,7 @@ void append(int value) { // appending a value to the end of the liste
 }
 
 int main() { 
-    append(100); // Append the value 10 to the list
+    append(100); // Append the value 100 to the list
     for (int i = 0; i < length; i++) {     //print each value
         printf("%d ", list[i]);
     }
