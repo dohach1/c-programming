@@ -42,7 +42,8 @@ int main(){
   return 0;
 }
   
-    //last version 
+    //last version of code 
+    //1.add last node
     
 #include<stdio.h>
 #include<stdlib.h>
