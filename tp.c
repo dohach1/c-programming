@@ -138,3 +138,59 @@ printList(head);
      return 0;
 }
   
+
+
+         //graphs 
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int num_vertices;
+    int** adj_matrix;
+} Graph;
+
+Graph* create_graph(int num_vertices) {
+    Graph* graph = (Graph*) malloc(sizeof(Graph));
+    graph->num_vertices = num_vertices;
+    graph->adj_matrix = (int**) malloc(num_vertices * sizeof(int*));
+    for (int i = 0; i < num_vertices; i++) {
+        graph->adj_matrix[i] = (int*) calloc(num_vertices, sizeof(int));
+    }
+    return graph;
+}
+
+void add_edge(Graph* graph, int src, int dest) {
+    // add edge from src to dest
+    graph->adj_matrix[src][dest] = 1;
+    // add edge from dest to src (undirected graph)
+    graph->adj_matrix[dest][src] = 1;
+}
+
+void print_graph(Graph* graph) {
+    printf("Adjacency matrix:\n");
+    for (int i = 0; i < graph->num_vertices; i++) {
+        for (int j = 0; j < graph->num_vertices; j++) {
+            printf("%d ", graph->adj_matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main(int argc, char* argv[]) {
+    int num_vertices = atoi(argv[1]);
+    int num_edges = atoi(argv[2]);
+    Graph* graph = create_graph(num_vertices);
+    printf("Enter edges (src dest):\n");
+    int src, dest;
+    for (int i = 0; i < num_edges; i++) {
+        scanf("%d %d", &src, &dest);
+        add_edge(graph, src-1, dest-1); // adjust indices to start from 0
+    }
+    print_graph(graph);
+    return 0;
+}
+
+
