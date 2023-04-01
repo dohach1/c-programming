@@ -1,46 +1,5 @@
-#include<stdio.h>
-#include<stdlib.h>
 
-typedef struct s_node{
-  int data;
-  struct s_node* next;
-}node;
-node *head;
-node*last;
-void append (int x){
-  node* element = (node*)malloc(sizeof(node));
-  element->data=x;
-  element->next=NULL;
-  if(*head==NULL){
-    *head=element;
-  else{
-    struct s_node *lastn=*head
-    while (lastn ->next !=NULL){
-      lastn=lastn->next;
-    }
-      lastn->next=element;
-    
-void printList(struct node *head)
-{
-    struct node *temp = head;
-    while(temp != NULL)
-    {
-         printf("%d->", temp->data);
-         temp = temp->next;
-    }
-    printf("NULL\n");
-}
-
-
-int main(){
-  head=(node*)malloc(sizeof(node));
-  struct node *head=NULL;
-  append(&head,10);
-  append(&head,100);
-  append(&head,1000);
-  printList(head);
-  return 0;
-}
+        //linkedlist //graphs
   
     //last version of code 
     //1.add last node
