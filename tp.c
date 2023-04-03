@@ -194,3 +194,71 @@ int main(int argc, char* argv[]) {
 }
 
 
+//binary search tree
+
+
+#include <stdio.h>
+#include<stdlib.h>
+typedef struct node{
+    struct node *left;
+    struct node *right;
+    int height ;
+    int value;
+} nd;
+
+int height (nd* node)
+{
+    if(node==NULL);
+    return 0;
+    
+}
+nd* newnode(int value){
+    nd *node= (nd*)malloc(sizeof(nd));
+    node->left=NULL;
+    node->right=NULL;
+    node->height=1;
+    node->value=value;
+}
+void insert (nd** root_adr,int value){
+    nd *root =*root_adr;
+    if(root==NULL){
+        root=newnode(value);
+        *root_adr=root;
+        return;
+    }
+    if (root->value>value){  //bst
+        insert(&root->left,value);}
+     else if (root->value<value){
+        insert(&root->right,value);
+    else{
+        return;
+    }
+    root ->height =max(height(root->left),height(root->right))+1;
+    int balance = height (root->left )- height (root->right);
+    if(balance >1)
+    {
+        if (value<root->left->value){
+            leftrotation(&(root->left));
+            rightrotation(&root);
+        }
+        else{
+            rightrotation(&root);
+            
+        }
+    }
+    
+        
+        
+    }
+    
+}
+
+
+int main()
+{
+    nd* avl= NULL;
+    insert(&avl,8);
+    return 0;
+}
+
+
