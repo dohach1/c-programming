@@ -197,7 +197,8 @@ int main(int argc, char* argv[]) {
 //binary search tree
 
 
-#include <stdio.h>
+
+ #include <stdio.h>
 #include<stdlib.h>
 typedef struct node{
     struct node *left;
@@ -210,8 +211,28 @@ int height (nd* node)
 {
     if(node==NULL);
     return 0;
+    return node ->height;
+
     
 }
+void rightrotation(nd** root_adr)
+{
+    nd* root=*root_adr;
+    nd* leftchild=root->left;
+    nd* leftchildrightchild=leftchild->right;
+    leftchild->right=root;
+    root->left=leftchildrightchild;
+    root->height=max(height(root->left),height(root->right))+1;
+    leftchild->height=max(height(leftchild->left),height(leftchild->right))+1;
+    *root_adr=leftchild
+    
+    //we do the same for rightchild and rightleftchild (same function start with void)
+    
+    
+}
+
+
+
 nd* newnode(int value){
     nd *node= (nd*)malloc(sizeof(nd));
     node->left=NULL;
@@ -235,7 +256,7 @@ void insert (nd** root_adr,int value){
     }
     root ->height =max(height(root->left),height(root->right))+1;
     int balance = height (root->left )- height (root->right);
-    if(balance >1)
+    if(balance <-1)
     {
         if (value<root->left->value){
             leftrotation(&(root->left));
@@ -244,7 +265,9 @@ void insert (nd** root_adr,int value){
         else{
             rightrotation(&root);
             
+            
         }
+        
     }
     
         
@@ -260,5 +283,3 @@ int main()
     insert(&avl,8);
     return 0;
 }
-
-
