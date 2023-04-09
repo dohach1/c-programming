@@ -198,88 +198,124 @@ int main(int argc, char* argv[]) {
 
 
 
- #include <stdio.h>
-#include<stdlib.h>
-typedef struct node{
-    struct node *left;
-    struct node *right;
-    int height ;
+ 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct Node
+{
+    struct Node *left;
+    struct Node *right;
+    int height;
     int value;
-} nd;
+}Nd;
 
-int height (nd* node)
+int max(int a, int b)
 {
-    if(node==NULL);
-    return 0;
-    return node ->height;
-
-    
+    return a > b ? a : b;
 }
-void rightrotation(nd** root_adr)
+
+Nd* newNode(int value)
 {
-    nd* root=*root_adr;
-    nd* leftchild=root->left;
-    nd* leftchildrightchild=leftchild->right;
-    leftchild->right=root;
-    root->left=leftchildrightchild;
-    root->height=max(height(root->left),height(root->right))+1;
-    leftchild->height=max(height(leftchild->left),height(leftchild->right))+1;
-    *root_adr=leftchild
-    
-    //we do the same for rightchild and rightleftchild (same function start with void)
-    
-    
+    Nd* node = (Nd*)malloc(sizeof(Nd));
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    node->value = value;
 }
 
-
-
-nd* newnode(int value){
-    nd *node= (nd*)malloc(sizeof(nd));
-    node->left=NULL;
-    node->right=NULL;
-    node->height=1;
-    node->value=value;
+int height(Nd* node)
+{
+    if (node == NULL)
+        return 0;
+    return node->height;
 }
-void insert (nd** root_adr,int value){
-    nd *root =*root_adr;
-    if(root==NULL){
-        root=newnode(value);
-        *root_adr=root;
-        return;
-    }
-    if (root->value>value){  //bst
-        insert(&root->left,value);}
-     else if (root->value<value){
-        insert(&root->right,value);
-    else{
-        return;
-    }
-    root ->height =max(height(root->left),height(root->right))+1;
-    int balance = height (root->left )- height (root->right);
-    if(balance <-1)
+
+void rightRotation(Nd** root_adr)
+{
+    Nd* root = *root_adr;
+    Nd* leftChild = root->left;
+    Nd* leftChildRightChild = leftChild->right;
+    leftChild->right = root;
+    root->left = leftChildRightChild;
+    root->height = max(height(root->left), height(root->right)) + 1;
+    leftChild->height = max(height(leftChild->left), height(leftChild->right)) + 1;
+    *root_adr = leftChild;
+}
+
+void leftRotation(Nd** root_adr)
+{
+    Nd* root = *root_adr;
+    Nd* rightChild = root->right;
+    Nd* rightChildLeftChild = rightChild->left;
+    rightChild->left = root;
+    root->right = rightChildLeftChild;
+    root->height = max(height(root->left), height(root->right)) + 1;
+    rightChild->height = max(height(rightChild->left), height(rightChild->right)) + 1;
+    *root_adr = rightChild;
+}
+
+void insert(Nd** root_adr, int value)
+{
+    Nd *root = *root_adr;
+    if (root == NULL)
     {
-        if (value<root->left->value){
-            leftrotation(&(root->left));
-            rightrotation(&root);
-        }
-        else{
-            rightrotation(&root);
-            
-            
-        }
-        
+        root = newNode(value);
+        *root_adr = root;
+        return;
     }
-    
-        
-        
+    if (root->value > value)
+        insert(&(root->left), value);
+    else if (root->value < value)
+        insert(&(root->right), value);
+    else
+        return;
+    root->height = max(height(root->left), 
+                       height(root->right)) +1;
+    int balance = height(root->left) - height(root->right);
+    if (balance > 1)
+    {
+        if (value > root->left->value)
+        {
+            leftRotation(&(root->left));
+            rightRotation(&root);
+        }
+        else
+            rightRotation(&root);
     }
-    
+    if (balance < -1)
+    {
+        if (value < root->right->value)
+        {
+            rightRotation(&(root->left));
+            leftRotation(&root);
+        }
+        else
+            leftRotation(&root);
+    }
+    *root_adr = root;
 }
 
-
-int main()
+bool find(Nd* root, int value)
 {
-    nd* avl= NULL;
-    insert(&avl,8);
-    return 0;
+    if (root == NULL)
+        return false;
+    if (root->value == value)
+        return true;
+    else if (root->value > value)
+        return find(root->left, value);
+    else
+        return find(root->right, value);
+}
+
+             //free tree
+
+void free_tree(Nd* root)
+{
+    if (root == NULL)
+        return;
+    free_tree(root->left);
+    free_tree(root->right);
+    free(root);
 }
